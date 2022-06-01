@@ -6,6 +6,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - run: julia --color=yes --project -e 'using Pkg; Pkg.instantiate()'
+    - run: chmod -vR u+w $(julia --project -e 'using Git_jll; print(Git_jll.artifact_dir)')
+    - run: julia --color=yes --project patch_git.jl $(julia --project -e 'using Git_jll; print(Git_jll.artifact_dir)')
     - run: julia --color=yes --project test.jl
       continue-on-error: true
     - name: Setup upterm session
