@@ -5,5 +5,7 @@ jobs:
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
+    - run: julia --color=yes --project -e 'using Pkg; Pkg.instantiate()'
+    - run: julia --color=yes --project test.jl
     - name: Setup upterm session
       uses: lhotari/action-upterm@v1
