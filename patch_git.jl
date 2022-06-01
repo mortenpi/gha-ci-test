@@ -22,11 +22,26 @@ for (root, dirs, files) in walkdir(git_install_dir)
             println(io, lines[1])
             println(io, "echo [stdout] RUNNING: $file >&1")
             println(io, "echo [stderr] RUNNING: $file >&2")
-            println(io, "echo [\$(date -Is)] RUNNING: $file >> ~/git-sh-call-log")
-            println(io, "echo DYLD_LIBRARY_PATH=\$DYLD_LIBRARY_PATH")
-            println(io, "export DYLD_LIBRARY_PATH=\$DYLD_LIBRARY_PATH_SIPHACK")
-            println(io, "echo DYLD_FALLBACK_LIBRARY_PATH=\$DYLD_FALLBACK_LIBRARY_PATH")
-            println(io, "export DYLD_FALLBACK_LIBRARY_PATH=\$DYLD_FALLBACK_LIBRARY_PATH_SIPHACK")
+            println(io, "echo [\$(date +'%Y-%m-%dT%H:%M:%S%z')] RUNNING: $file >> ~/git-sh-call-log")
+            println(io, "echo DYLD_LIBRARY_PATH=\${DYLD_LIBRARY_PATH:-(undefined)}")
+            println(io, "echo SIPHACK_DYLD_LIBRARY_PATH=\${SIPHACK_DYLD_LIBRARY_PATH:-(undefined)}")
+            println(io, "echo DYLD_FALLBACK_LIBRARY_PATH=\${DYLD_FALLBACK_LIBRARY_PATH:-(undefined)}")
+            println(io, "echo SIPHACK_DYLD_FALLBACK_LIBRARY_PATH=\${SIPHACK_DYLD_FALLBACK_LIBRARY_PATH:-(undefined)}")
+            print(io, """
+            if [ \${SIPHACK_DYLD_LIBRARY_PATH+x} ]; then
+              echo "Overriding DYLD_LIBRARY_PATH"
+              export DYLD_LIBRARY_PATH=\$SIPHACK_DYLD_LIBRARY_PATH
+            fi
+            """)
+            print(io, """
+            if [ \${SIPHACK_DYLD_FALLBACK_LIBRARY_PATH+x} ]; then
+              echo "Overriding DYLD_FALLBACK_LIBRARY_PATH"
+              export DYLD_FALLBACK_LIBRARY_PATH=\$SIPHACK_DYLD_FALLBACK_LIBRARY_PATH
+            fi
+            """)
+            println(io, "export DYLD_PRINT_LIBRARIES=1")
+            println(io, "export DYLD_PRINT_LIBRARIES_POST_LAUNCH=1")
+            println(io, "export DYLD_PRINT_RPATHS=1")
             for line in lines[2:end]
                 println(io, line)
             end
