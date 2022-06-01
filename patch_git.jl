@@ -22,8 +22,10 @@ for (root, dirs, files) in walkdir(git_install_dir)
             println(io, lines[1])
             println(io, "echo RUNNING: $file >&1")
             println(io, "echo RUNNING: $file >&2")
-            println(io, "echo DYLD_LIBRARY_PATH=\$DYLD_LIBRARY_PATH_SIPHACK")
-            println(io, "echo DYLD_FALLBACK_LIBRARY_PATH=\$DYLD_FALLBACK_LIBRARY_PATH_SIPHACK")
+            println(io, "echo DYLD_LIBRARY_PATH=\$DYLD_LIBRARY_PATH")
+            println(io, "export DYLD_LIBRARY_PATH=\$DYLD_LIBRARY_PATH_SIPHACK")
+            println(io, "echo DYLD_FALLBACK_LIBRARY_PATH=\$DYLD_FALLBACK_LIBRARY_PATH")
+            println(io, "export DYLD_FALLBACK_LIBRARY_PATH=\$DYLD_FALLBACK_LIBRARY_PATH_SIPHACK")
             for line in lines[2:end]
                 println(io, line)
             end
