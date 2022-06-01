@@ -7,4 +7,13 @@ dyldenv = [
    "DYLD_PRINT_RPATHS=1"
 ]
 
-run(`$(git()) submodule add foo bar`)
+@info "Running git submodule"
+try
+  run(`$(git()) submodule add foo bar`)
+catch e
+  @error "Expected fail" exception = (e, catch_backtrace())
+end
+
+@info "Running git version, for libs"
+gitcmd = git()
+Cmd(`$(gitcmd.exec[1]) version`, env=vcat(gitcmd.env, dyldenv)) |> run
