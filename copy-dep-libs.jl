@@ -10,7 +10,8 @@ dylibs = [
 ]
 
 
-mkpath(gitlibs)
+#mkpath(gitlibs)
+@assert isdir(gitlibs)
 for dylib in dylibs
     @info "Copying:" dylib gitlibs
     cp(dylib, gitlibs)
