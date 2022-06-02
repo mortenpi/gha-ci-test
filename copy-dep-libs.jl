@@ -13,5 +13,5 @@ chmod(dirname(gitlibs), 0o777)
 mkpath(gitlibs)
 for dylib in dylibs
     @info "Copying:" dylib gitlibs
-    cp(dylib, gitlibs)
+    cp(dylib, joinpath(gitlibs, basename(dylib)))
 end
