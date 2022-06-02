@@ -10,5 +10,12 @@ jobs:
     - run: julia --color=yes --project patch_git.jl $(julia --project -e 'using Git_jll; print(Git_jll.artifact_dir)')
     - run: julia --color=yes --project test.jl
       continue-on-error: true
+    - run: ./mose-repro.sh
+      continue-on-error: true
+    - run: julia --color=yes --project copy-dep-libs.jl
+    - run: julia --color=yes --project test.jl
+      continue-on-error: true
+    - run: ./mose-repro.sh
+      continue-on-error: true
     - name: Setup upterm session
       uses: lhotari/action-upterm@v1
