@@ -9,7 +9,7 @@ dylibs = [
     "/Users/runner/.julia/artifacts/ff3a519cd5338603e027bb508416673c2c28e6b9/lib/libxml2.2.dylib",
 ]
 
-chmod(dirname(gitlib), 0o777)
+chmod(dirname(gitlibs), 0o777)
 mkpath(gitlibs)
 for dylib in dylibs
     @info "Copying:" dylib gitlibs
