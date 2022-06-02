@@ -9,9 +9,8 @@ dylibs = [
     "/Users/runner/.julia/artifacts/ff3a519cd5338603e027bb508416673c2c28e6b9/lib/libxml2.2.dylib",
 ]
 
-
-mkpath(gitlibs, force=true)
-@assert isdir(gitlibs)
+chmod(dirname(gitlib), 0o777)
+mkpath(gitlibs)
 for dylib in dylibs
     @info "Copying:" dylib gitlibs
     cp(dylib, gitlibs)
