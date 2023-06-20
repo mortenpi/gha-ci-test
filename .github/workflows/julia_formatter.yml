@@ -1,0 +1,19 @@
+name: Julia Formatter
+on:
+  push:
+  pull_request:
+    paths:
+      - "**.jl"
+      - ".JuliaFormatter.toml"
+
+env:
+  CI: true
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: julia-actions/julia-format@master
+      with:
+        args: -v .
